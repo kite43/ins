@@ -1,0 +1,454 @@
+#PRACTICAL 1
+import pandas as pd 
+import seaborn as sns
+dataset = sns.load_dataset(‘iris')
+print (dataset. head())
+descriptive_statistics = dataset.describe()
+print(descriptive_statistics)
+
+
+
+
+2 &  3
+# Import the necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read the student dataset into a Pandas DataFrame
+df = pd.read_csv('student_dataset.csv')
+
+# Perform descriptive analysis
+print(df.dtypes)
+print(df.describe())
+
+# Identify the variation in data
+variation = df.groupby(['Semester', 'Subject'])[['Marks']].max() - df.groupby(['Semester', 'Subject'])[['Marks']].min()
+print(variation)
+
+# Plot the graph showing the results of students in each semester
+plt.bar(df['Semester'], df.groupby('Semester')['Marks'].mean())
+plt.xlabel('Semester')
+plt.ylabel('Average Marks')
+plt.title('Average Marks of Students in Each Semester')
+plt.show()
+
+
+
+
+
+
+
+4
+# Import the necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the student dataset into a Pandas DataFrame
+df = pd.read_csv('student_dataset.csv')
+
+# Get the unique city names
+city_names = df['City'].unique()
+
+# Create a dictionary to store the number of students from each city
+city_count = {}
+for city in city_names:
+    city_count[city] = df[df['City'] == city].shape[0]
+
+# Create a bar chart showing the number of students from each city
+plt.bar(city_names, city_count.values())
+plt.xlabel('City')
+plt.ylabel('Number of Students')
+plt.title('Number of Students from Each City')
+plt.show()
+
+
+
+# Import the necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the student dataset into a Pandas DataFrame
+df = pd.read_csv('student_dataset.csv')
+
+# Get the number of male and female students
+male_count = df[df['Gender'] == 'Male'].shape[0]
+female_count = df[df['Gender'] == 'Female'].shape[0]
+
+# Create a pie chart showing the number of male and female students
+plt.pie([male_count, female_count], labels=['Male', 'Female'], autopct='%1.1f%%')
+plt.title('Number of Male and Female Students')
+plt.show()
+
+
+
+
+# Import the necessary libraries
+import pandas as pd
+
+# Read the student dataset into a Pandas DataFrame
+df = pd.read_csv('student_dataset.csv')
+
+# Fill in the missing values for gender with the most common gender
+df['Gender'].fillna(df['Gender'].mode()[0], inplace=True)
+
+# Fill in the missing values for marks with the mean mark for the corresponding subject and semester
+df['Marks'].fillna(df.groupby(['Semester', 'Subject'])['Marks'].transform('mean'), inplace=True)
+
+
+
+
+# Import the necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the student dataset into a Pandas DataFrame
+df = pd.read_csv('student_dataset.csv')
+
+# Treat missing values for gender and missing values for marks
+df['Gender'].fillna(df['Gender'].mode()[0], inplace=True)
+df['Marks'].fillna(df.groupby(['Semester', 'Subject'])['Marks'].transform('mean'), inplace=True)
+
+# Plot the graph showing the geographical location of students
+city_names = df['City'].unique()
+city_count = {}
+for city in city_names:
+    city_count[city] = df[df['City'] == city].shape[0]
+plt.bar(city_names, city_count.values())
+plt.xlabel('City')
+plt.ylabel('Number of Students')
+plt.title('Number of Students from Each City')
+plt.show()
+
+# Plot the graph showing the number of male and female students
+male_count = df[df['Gender'] == 'Male'].shape[0]
+female_count = df[df['Gender'] == 'Female'].shape[0]
+plt.pie([male_count, female_count], labels=['Male', 'Female'], autopct='%1.1f%%')
+plt.title('Number of Male and Female Students')
+plt.show()
+
+
+
+
+
+
+
+
+5
+line
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create some data
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# Plot the data
+plt.plot(x, y)
+
+# Set the labels and title
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Line Chart Example')
+
+# Show the plot
+plt.show()
+
+
+
+
+
+bar
+import matplotlib.pyplot as plt
+
+# Create some data
+x = ['Alice', 'Bob', 'Carol']
+y = [10, 20, 30]
+
+# Create a bar chart
+plt.bar(x, y)
+
+# Set the labels and title
+plt.xlabel('Name')
+plt.ylabel('Score')
+plt.title('Bar Chart Example')
+
+# Show the plot
+plt.show()
+
+
+
+
+histogram
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create some data
+x = np.random.normal(10, 2, 1000)
+
+# Create a histogram
+plt.hist(x)
+
+# Set the labels and title
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.title('Histogram Example')
+
+# Show the plot
+plt.show()
+
+
+
+
+                           
+scatter 
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create some data
+x = np.random.normal(10, 2, 1000)
+y = np.random.normal(20, 3, 1000)
+
+# Create a scatter plot
+plt.scatter(x, y)
+
+# Set the labels and title
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Scatter Plot Example')
+
+# Show the plot
+plt.show()
+
+
+
+
+
+pie
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create some data
+labels = ['Python', 'C++', 'Java', 'JavaScript']
+values = [20, 30, 40, 10]
+
+# Create a pie chart
+plt.pie(values, labels=labels, autopct="%1.1f%%")
+
+# Set the title
+plt.title("Pie Chart Example")
+
+# Show the plot
+plt.show()
+
+
+
+
+
+
+
+
+6
+import pandas as pd
+
+# Load the dataset
+df = pd.read_csv('dataset.csv')
+
+# Identify the categorical variables
+categorical_variables = ['Country', 'Gender']
+
+# Choose an encoding method
+encoding_method = 'label'
+
+# Encode the categorical variables
+for column in categorical_variables:
+    if encoding_method == 'label':
+        df[column] = df[column].astype('category').cat.codes
+    elif encoding_method == 'one-hot':
+        df = pd.get_dummies(df, columns=[column])
+
+# Update the dataset with the encoded categorical variables
+df.update(df)
+
+
+
+
+
+
+
+
+8
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic Graphical Shapes</title>
+</head>
+<body>
+
+<!-- Rectangle -->
+<canvas id="rectangleCanvas" width="200" height="100"></canvas>
+
+<!-- Circle -->
+<canvas id="circleCanvas" width="200" height="200"></canvas>
+
+<!-- Line -->
+<canvas id="lineCanvas" width="200" height="200"></canvas>
+
+<!-- Triangle -->
+<canvas id="triangleCanvas" width="200" height="200"></canvas>
+
+<script>
+  // Rectangle
+  var rectangleCanvas = document.getElementById("rectangleCanvas");
+  var rectCtx = rectangleCanvas.getContext("2d");
+  rectCtx.fillRect(20, 20, 100, 50);
+
+  // Circle
+  var circleCanvas = document.getElementById("circleCanvas");
+  var circleCtx = circleCanvas.getContext("2d");
+  circleCtx.beginPath();
+  circleCtx.arc(100, 100, 50, 0, 2 * Math.PI);
+  circleCtx.fill();
+
+  // Line
+  var lineCanvas = document.getElementById("lineCanvas");
+  var lineCtx = lineCanvas.getContext("2d");
+  lineCtx.moveTo(20, 20);
+  lineCtx.lineTo(100, 100);
+  lineCtx.stroke();
+
+  // Triangle
+  var triangleCanvas = document.getElementById("triangleCanvas");
+  var triangleCtx = triangleCanvas.getContext("2d");
+  triangleCtx.beginPath();
+  triangleCtx.moveTo(50, 50);
+  triangleCtx.lineTo(150, 50);
+  triangleCtx.lineTo(100, 150);
+  triangleCtx.closePath();
+  triangleCtx.fill();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+9
+<!DOCTYPE html>
+<html>
+<head>
+<title>SVG Shapes</title>
+</head>
+<body>
+<h1>SVG Shapes</h1>
+<svg width="400" height="400">
+<!-- Rectangle -->
+<rect x="50" y="20" width="100" height="50" fill="red" />
+<text x="60" y="85" fill="black">Rectangle</text>
+
+<!-- Circle -->
+<circle cx="250" cy="45" r="30" fill="blue" />
+<text x="235" y="85" fill="black">Circle</text>
+
+<!-- Line -->
+<line x1="50" y1="100" x2="200" y2="150" stroke="green" />
+<text x="125" y="180" fill="black">Line</text>
+
+<!-- Triangle (Polygon) -->
+<polygon points="300,100 250,200 350,200" fill="orange" />
+<text x="260" y="235" fill="black">Triangle</text>
+
+<!-- Ellipse -->
+<ellipse cx="150" cy="300" rx="60" ry="20" fill="purple" />
+<text x="125" y="325" fill="black">Ellipse</text>
+</svg>
+</body>
+</html>
+
+
+
+
+
+
+
+
+10
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Bar Chart</title>
+</head>
+<body>
+  <h1>Simple Bar Chart</h1>
+  <canvas id="myCanvas" width="400" height="300"></canvas>
+
+  <script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+
+    // Data for the bar chart
+    var data = [15, 25, 30, 40, 20];
+    var labels = ['A', 'B', 'C', 'D', 'E'];
+
+    // Chart dimensions
+    var chartWidth = 300;
+    var chartHeight = 200;
+    var barSpacing = 40;
+
+    // Chart origin (top-left corner)
+    var originX = 50;
+    var originY = 250;
+
+    // Draw title
+    ctx.font = 'bold 18px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Simple Bar Chart', canvas.width / 2, 30);
+
+    // Draw x-axis label
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('X Label', canvas.width / 2, canvas.height - 10);
+
+    // Draw y-axis label
+    ctx.save();
+    ctx.translate(10, canvas.height / 2);
+    ctx.rotate(-Math.PI / 2);
+
+    ctx.textAlign = 'center';
+    ctx.fillText('Y Label', 0, 0);
+    ctx.restore();
+
+    // Calculate bar width based on chart dimensions and data length
+    var barWidth = (chartWidth - (data.length - 1) * barSpacing) / data.length;
+
+    // Find the maximum value in the data
+    var maxData = Math.max(...data);
+
+    // Draw bars
+    for (var i = 0; i < data.length; i++) {
+      var barHeight = (data[i] / maxData) * chartHeight;
+      var x = originX + i * (barWidth + barSpacing);
+      var y = originY - barHeight;
+
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(x, y, barWidth, barHeight);
+
+      // Draw label above each bar
+      ctx.fillStyle = 'black';
+      ctx.font = '14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(labels[i], x + barWidth / 2, y - 5);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
