@@ -1,1 +1,162 @@
 https://www.playbook.com/s/stark123/dX2SAiATY4JPMdLDYUA6gNid?assetToken=DiHva58xDkJEweoKfcn4RWQ4
+
+
+1
+
+import base64
+
+def encrypt(data, key):
+    """Encrypts the given data using the given key."""
+    encoded_data = base64.b64encode(data.encode())
+    encrypted_data = encoded_data.decode()
+    return encrypted_data
+
+def decrypt(encrypted_data, key):
+    """Decrypts the given encrypted data using the given key."""
+    decoded_data = base64.b64decode(encrypted_data.encode())
+    decrypted_data = decoded_data.decode()
+    return decrypted_data
+
+# Example usage:
+
+original_data = "This is my secret data."
+
+# Generate a random encryption key
+encryption_key = "my secret key"
+
+# Encrypt the data
+encrypted_data = encrypt(original_data, encryption_key)
+
+# Decrypt the data
+decrypted_data = decrypt(encrypted_data, encryption_key)
+
+# Print the decrypted data
+print(encrypted_data)
+print(decrypted_data)
+
+
+
+
+
+2
+class Transaction:
+    def __init__(self, from_address, to_address, amount):
+        self.from_address = from_address
+        self.to_address = to_address
+        self.amount = amount
+
+    def to_dict(self):
+        return {'from_address': self.from_address,
+                'to_address': self.to_address,
+                'amount': self.amount}
+
+class Block:
+    def __init__(self, timestamp, transactions, previous_hash=''):
+        self.timestamp = timestamp
+        self.transactions = transactions
+        self.previous_hash = previous_hash
+        self.nonce = 0
+        self.hash = self.calculate_hash()
+
+    def calculate_hash(self):
+        block_string = f"{self.timestamp}{self.previous_hash}{self.nonce}{self.transactions}"
+        return hashlib.sha256(block_string.encode()).hexdigest()
+
+    def mine_block(self, difficulty):
+        while self.hash[0:difficulty] != '0' * difficulty:
+            self.nonce += 1
+            self.hash = self.calculate_hash()
+
+class Blockchain:
+    def __init__(self):
+        self.chain = [self.create_genesis_block()]
+        self.difficulty = 2
+        self.pending_transactions = []
+
+    def create_genesis_block(self):
+        return Block(time.time(), "Genesis Block", previous_hash="0")
+
+    def get_last_block(self):
+        return self.chain[-1]
+
+    def add_block(self, new_block):
+        new_block.previous_hash = self.get_last_block().hash
+        new_block.mine_block(self.difficulty)
+        self.chain.append(new_block)
+
+    def add_new_transaction(self, transaction):
+        self.pending_transactions.append(transaction)
+
+    def create_new_block(self):
+        transactions = self.pending_transactions
+        new_block = Block(time.time(), transactions, previous_hash=self.get_last_block().hash)
+        new_block.mine_block(self.difficulty)
+        self.add_block(new_block)
+        self.pending_transactions = []
+
+# Let's test the implementation
+blockchain = Blockchain()
+transaction1 = Transaction('Alice', 'Bob', 100)
+transaction2 = Transaction('Bob', 'Cathy', 200)
+
+blockchain.add_new_transaction(transaction1)
+blockchain.add_new_transaction(transaction2)
+
+blockchain.create_new_block()
+
+print("Blockchain Length: ", len(blockchain.chain))
+print("Last Block Hash: ", blockchain.get_last_block().hash)
+print("Blockchain Data: ", blockchain.chain)
+
+
+
+
+
+
+
+3
+
+import hashlib
+import time
+
+class Block:
+    def __init__(self, index, previous_hash, timestamp, data, hash):
+        self.index = index
+        self.previous_hash = previous_hash
+        self.timestamp = timestamp
+        self.data = data
+        self.hash = hash
+
+
+def calculate_hash(index, previous_hash, timestamp, data):
+    value = str(index) + str(previous_hash) + str(timestamp) + str(data)
+    return hashlib.sha256(value.encode('utf-8')).hexdigest()
+
+
+def create_genesis_block():
+    return Block(0, "0", time.time(), "BLOCKCHAIN", calculate_hash(0, "0", time.time(), "BLOCKCHAIN"))
+
+
+def create_new_block(previous_block, data):
+    index = previous_block.index + 1
+    timestamp = time.time()
+    hash = calculate_hash(index, previous_block.hash, timestamp, data)
+    return Block(index, previous_block.hash, timestamp, data, hash)
+
+
+# Creating blockchain and adding genesis block
+blockchain = [create_genesis_block()]
+previous_block = blockchain[0]
+
+# How many blocks should we add to the chain after the genesis block
+num_of_blocks_to_add = 20
+
+# Add blocks to the chain
+for i in range(0, num_of_blocks_to_add):
+    new_block = create_new_block(previous_block, "Hey! I'm block #" + str(i))
+    blockchain.append(new_block)
+    previous_block = new_block
+    print("Block #{} has been added to the blockchain!".format(new_block.index))
+    print("Hash: {}\n".format(new_block.hash))
+
+
